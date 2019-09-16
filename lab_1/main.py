@@ -13,7 +13,7 @@ print('alo')
 
 def filter_stop_words(frequencies: dict, stop_words: tuple) -> dict:
     """
-    Removes all stop words from the given frequencies dictionary
+    Removes all stop words from th given frequencies dictionary
     """
     pass
 
