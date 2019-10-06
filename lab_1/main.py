@@ -50,15 +50,15 @@ def get_top_n(frequencies: dict, top_n: int) -> tuple:
     return tuple(word_list)
 
 
-# def read_from_file(path_to_file: str, lines_limit: int) -> str:
-#     with open(path_to_file, encoding='utf-8') as text:
-#         text = text.readlines()[:lines_limit]
-#     text = ''.join(text)
-#     return text
+def read_from_file(path_to_file: str, lines_limit: int) -> str:
+    with open(path_to_file, encoding='utf-8') as text:
+        text = text.readlines()[:lines_limit]
+    text = ''.join(text)
+    return text
 
 
-# def write_to_file(path_to_file: str, content: tuple):
-#     with open(path_to_file, 'w') as new_text:
-#         for word in content:
-#             new_text.write(word+'\n')
-#     return 'file updated'
+def write_to_file(path_to_file: str, content: tuple):
+    with open(path_to_file, 'w') as new_text:
+        for word in content:
+            new_text.write(word+'\n')
+    return 'file updated'
