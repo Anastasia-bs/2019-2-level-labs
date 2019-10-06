@@ -61,4 +61,4 @@ def write_to_file(path_to_file: str, content: tuple):
     with open(path_to_file, 'w') as new_text:
         for word in content:
             new_text.write(word+'\n')
-
+    return 'file updated'
