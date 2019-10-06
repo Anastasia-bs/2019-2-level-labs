@@ -62,9 +62,3 @@ def write_to_file(path_to_file: str, content: tuple):
         for word in content:
             new_text.write(word+'\n')
 
-
-top_n = 7
-stop_words = ('a', 'the', 'is', 'i')
-lines_limit = 7
-write_to_file('report.txt', get_top_n(filter_stop_words(calculate_frequences(read_from_file('data.txt', lines_limit)),
-                                                        stop_words), top_n))
