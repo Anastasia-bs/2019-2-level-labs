@@ -80,4 +80,3 @@ def load_from_csv(path_to_file: str) -> list:
             for j in range(len(m[i])):
                 m[i][j] = int(m[i][j])
     return m
-#
