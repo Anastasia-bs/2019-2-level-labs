@@ -4,7 +4,7 @@ Labour work #2. Levenshtein distance.
 
 
 def generate_edit_matrix(num_rows: int, num_cols: int) -> list:
-    if isinstance(num_cols, int):
+    if isinstance(num_cols, int) and isinstance(num_rows, int):
         return [[0 for j in range(num_cols)] for i in range(num_rows)]
     return []
 
