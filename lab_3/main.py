@@ -27,7 +27,7 @@ class WordStorage:
         return -1
 
     def get_original_by(self, id: int) -> str:
-        if id in self.storage.values():
+        if isinstance(id, int) and id in self.storage.values():
             for k, v in self.storage.items():
                 if id == v:
                     return k
@@ -47,11 +47,9 @@ class NGramTrie:
         self.gram_log_probabilities = {}
 
     def fill_from_sentence(self, sentence: tuple) -> str:
-        gram_list = []
         if isinstance(sentence, tuple):
-            for i in range(len(sentence)):
-                if len(sentence[i:i+self.size]) == self.size:
-                    gram_list.append(sentence[i:i+self.size])
+            gram_list = [sentence[i:i+self.size] for i in range(len(sentence)) if
+                         len(sentence[i:i+self.size]) == self.size]
             for gram in gram_list:
                 if gram not in self.gram_frequencies:
                     self.gram_frequencies[gram] = 1
@@ -59,8 +57,7 @@ class NGramTrie:
                     self.gram_frequencies[gram] += 1
         if self.gram_frequencies:
             return 'OK'
-        else:
-            return 'ERROR'
+        return 'ERROR'
 
     def calculate_log_probabilities(self):
         for gram in self.gram_frequencies:
@@ -74,13 +71,11 @@ class NGramTrie:
     def predict_next_sentence(self, prefix: tuple) -> list:
         if isinstance(prefix, tuple) and len(prefix) == self.size-1:
             prefix = list(prefix)
-            most_prob = [self.gram_log_probabilities[gram] for gram in self.gram_log_probabilities if
+            most_prob = [(self.gram_log_probabilities[gram], gram) for gram in self.gram_log_probabilities if
                          list(gram)[:-1] == prefix]
             if most_prob:
                 most_prob = max(most_prob)
-                for k, v in self.gram_log_probabilities.items():
-                    if most_prob == v and list(k)[:-1] == prefix:
-                        prefix.append(k[-1])
+                prefix.append(most_prob[1][-1])
             return prefix
         return []
 
@@ -89,8 +84,6 @@ def encode(storage_instance, corpus) -> list:
     if isinstance(storage_instance, WordStorage) and isinstance(corpus, list):
         for sentence in corpus:
             storage_instance.from_corpus(tuple(sentence))
-        storage_instance.from_corpus(tuple(corpus))
-        for sentence in corpus:
             for i, token in enumerate(sentence):
                 sentence[i] = storage_instance.get_id_of(token)
         return corpus
@@ -104,11 +97,11 @@ def split_by_sentence(text: str) -> list:
                 text = text.replace(symbol, '')
         text = text.split()
         text = ' '.join(text)
-        if text[-1] in '.!?':
-            text = text.replace(text[-1], '')
         for i in range(len(text) - 2):
             if text[i:i + 2] in ('? ', '! ', '. ') and text[i + 2].isupper():
                 text = text.replace(text[i:i + 2], '//')
+        if text[-1] in '.!?':
+            text = text.replace(text[-1], '')
         if text:
             sentences = text.lower().split('//')
             for i, sentence in enumerate(sentences):
