@@ -70,16 +70,16 @@ class NGramTrie:
 
     def predict_next_sentence(self, prefix: tuple) -> list:
         if isinstance(prefix, tuple) and len(prefix) == self.size-1:
-        predicted = list(prefix)
+            predicted = list(prefix)
             while True:
-               most_prob = [(self.gram_log_probabilities[gram], gram) for gram in self.gram_log_probabilities if
+                most_prob = [(self.gram_log_probabilities[gram], gram) for gram in self.gram_log_probabilities if
                             gram[:-1] == prefix]
-               if most_prob:
-                   most_prob = max(most_prob)
-                   predicted.append(most_prob[1][-1])
-                   prefix = tuple(predicted[-self.size+1:])
-               else:
-                   return predicted
+                if most_prob:
+                    most_prob = max(most_prob)
+                    predicted.append(most_prob[1][-1])
+                    prefix = tuple(predicted[-self.size+1:])
+                else:
+                    return predicted
         return []
 
 
