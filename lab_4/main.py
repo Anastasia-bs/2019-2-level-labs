@@ -65,6 +65,25 @@ class TfIdfCalculator:
                 return document[word], place
         return ()
 
+    def cosine_distance(self, index_text_1, index_text_2):
+        if index_text_1 <= len(self.corpus) and index_text_2 <= len(self.corpus):
+            text_1 = self.corpus[index_text_1]
+            text_2 = self.corpus[index_text_2]
+            words = text_1
+            words += [el for el in text_2 if el not in text_1]
+            text_1 = [self.tf_idf_values[index_text_1].get(word, 0) for word in words]
+            text_2 = [self.tf_idf_values[index_text_2].get(word, 0) for word in words]
+            scalar = 0
+            norm_a = 0
+            norm_b = 0
+            for i in range(len(text_1)):
+                scalar += text_1[i] * text_2[i]
+                norm_a += text_1[i] * text_1[i]
+                norm_b += text_2[i] * text_2[i]
+            cos_distance = scalar / math.sqrt(norm_a) * math.sqrt(norm_b)
+            return cos_distance
+        return 1000
+
 
 if __name__ == '__main__':
     texts = ['5_7.txt', '15_2.txt', '10547_3.txt', '12230_7.txt']
@@ -79,3 +98,4 @@ if __name__ == '__main__':
     tf_idf.calculate()
     print(tf_idf.report_on('good', 0))
     print(tf_idf.report_on('and', 1))
+    print(tf_idf.cosine_distance(0, 1))
