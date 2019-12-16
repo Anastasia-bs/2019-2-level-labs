@@ -7,7 +7,7 @@ REFERENCE_TEXTS = []
 def clean_tokenize_corpus(texts: list) -> list:
     clean_text = []
     if isinstance(texts, list):
-        for i, doc in enumerate(texts):
+        for doc in texts:
             if isinstance(doc, str):
                 while '<br />' in doc:
                     doc = doc.replace('<br />', ' ')
